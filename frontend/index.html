@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlockVote – DApp Bỏ phiếu phi tập trung</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🗳️</span>
+      <h1>BlockVote</h1>
+    </div>
+    <div class="wallet">
+      <button id="connectBtn" class="btn primary">Kết nối ví</button>
+      <span id="account" class="account hidden"></span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="status-card">
+      <div>
+        <strong>Trạng thái phiên:</strong>
+        <span id="votingStatus" class="badge badge-closed">Chưa biết</span>
+      </div>
+      <div>
+        <strong>Mạng:</strong> <span id="networkName">—</span>
+      </div>
+      <div>
+        <strong>Contract:</strong> <span id="contractAddr" class="mono">—</span>
+      </div>
+    </section>
+
+    <section id="adminPanel" class="admin hidden">
+      <h2>⚙️ Khu vực Owner</h2>
+      <div class="admin-row">
+        <input id="newCandidateName" type="text" placeholder="Tên ứng viên mới" />
+        <button id="addCandidateBtn" class="btn">Thêm ứng viên</button>
+      </div>
+      <div class="admin-row">
+        <button id="startBtn" class="btn success">Mở bỏ phiếu</button>
+        <button id="endBtn" class="btn danger">Đóng bỏ phiếu</button>
+      </div>
+      <p class="hint">* Chỉ địa chỉ Owner (người đã deploy contract) mới thấy khu vực này.</p>
+    </section>
+
+    <section class="candidates">
+      <h2>Danh sách ứng viên</h2>
+      <div id="candidatesList" class="grid">
+        <p class="empty">Chưa kết nối ví hoặc chưa có ứng viên nào.</p>
+      </div>
+    </section>
+
+    <section id="toast" class="toast hidden"></section>
+  </main>
+
+  <footer class="footer">
+    <small>Đề tài học tập – Blockchain căn bản · Ethereum · Solidity · ethers.js</small>
+  </footer>
+
+  <!-- ethers.js v6 qua CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <!-- File do script deploy sinh ra: chứa CONTRACT_ADDRESS, CONTRACT_ABI, NETWORK_NAME -->
+  <script src="contract.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

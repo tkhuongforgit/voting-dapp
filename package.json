@@ -1,0 +1,19 @@
+{
+  "name": "voting-dapp",
+  "version": "1.0.0",
+  "description": "DApp Bỏ phiếu phi tập trung trên Ethereum (Sepolia)",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "frontend": "npx http-server frontend -p 5500 -c-1"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.10",
+    "dotenv": "^16.4.5"
+  }
+}
