@@ -11,31 +11,31 @@ describe("Voting", function () {
     await voting.waitForDeployment();
   });
 
-  it("Đặt đúng owner và trạng thái ban đầu", async function () {
+  it("Dat dung owner va trang thai ban dau", async function () {
     expect(await voting.owner()).to.equal(owner.address);
     expect(await voting.votingOpen()).to.equal(false);
     expect(await voting.candidatesCount()).to.equal(0n);
   });
 
-  it("Owner có thể thêm ứng viên khi phiên đóng", async function () {
+  it("Owner co the them ung vien khi phien dong", async function () {
     await expect(voting.addCandidate("Alice"))
       .to.emit(voting, "CandidateAdded")
       .withArgs(1n, "Alice");
     expect(await voting.candidatesCount()).to.equal(1n);
   });
 
-  it("Người không phải owner KHÔNG thể thêm ứng viên", async function () {
+  it("Nguoi khong phai owner KHONG the them ung vien", async function () {
     await expect(voting.connect(alice).addCandidate("X")).to.be.revertedWith(
       "Chi owner moi co quyen nay"
     );
   });
 
-  it("Không thể mở phiên khi có ít hơn 2 ứng viên", async function () {
+  it("Khong the mo phien khi co it hon 2 ung vien", async function () {
     await voting.addCandidate("Alice");
     await expect(voting.startVoting()).to.be.revertedWith("Can it nhat 2 ung vien");
   });
 
-  it("Có thể bỏ phiếu khi phiên mở và không thể bầu 2 lần", async function () {
+  it("Co the bo phieu khi phien mo va khong the bau 2 lan", async function () {
     await voting.addCandidate("Alice");
     await voting.addCandidate("Bob");
     await voting.startVoting();
@@ -50,7 +50,7 @@ describe("Voting", function () {
     expect(c1.voteCount).to.equal(1n);
   });
 
-  it("Không thể bầu khi phiên chưa mở hoặc đã đóng", async function () {
+  it("Khong the bau khi phien chua mo hoac da dong", async function () {
     await voting.addCandidate("Alice");
     await voting.addCandidate("Bob");
 
@@ -66,7 +66,7 @@ describe("Voting", function () {
     );
   });
 
-  it("Chặn id ứng viên không hợp lệ", async function () {
+  it("Chan id ung vien khong hop le", async function () {
     await voting.addCandidate("Alice");
     await voting.addCandidate("Bob");
     await voting.startVoting();
@@ -75,7 +75,7 @@ describe("Voting", function () {
     await expect(voting.connect(alice).vote(99)).to.be.revertedWith("Ung vien khong hop le");
   });
 
-  it("Không thể thêm ứng viên khi phiên đang mở", async function () {
+  it("Khong the them ung vien khi phien dang mo", async function () {
     await voting.addCandidate("Alice");
     await voting.addCandidate("Bob");
     await voting.startVoting();
@@ -84,8 +84,8 @@ describe("Voting", function () {
     );
   });
 
-  it("getCandidates() trả về danh sách đầy đủ", async function () {
-    await voting.addCandidate("Alice");
+  it("getCandidates() tra ve danh sach day du", async function () {
+await voting.addCandidate("Alice");
     await voting.addCandidate("Bob");
     await voting.addCandidate("Carol");
     const list = await voting.getCandidates();
@@ -94,7 +94,7 @@ describe("Voting", function () {
     expect(list[2].name).to.equal("Carol");
   });
 
-  it("Owner có thể mở và đóng phiên bỏ phiếu", async function () {
+  it("Owner co the mo va dong phien bo phieu", async function () {
     await voting.addCandidate("Alice");
     await voting.addCandidate("Bob");
 
@@ -103,5 +103,21 @@ describe("Voting", function () {
 
     await expect(voting.endVoting()).to.emit(voting, "VotingEnded");
     expect(await voting.votingOpen()).to.equal(false);
+  });
+
+  it("Khong cho bo phieu voi id = 0", async function () {
+    const [owner, voter] = await ethers.getSigners();
+    await voting.addCandidate("A");
+    await voting.addCandidate("B");
+    await voting.startVoting();
+    await expect(
+      voting.connect(voter).vote(0)
+    ).to.be.revertedWith("Ung vien khong hop le");
+  });
+
+  it("Ten ung vien khong duoc rong", async function () {
+    await expect(
+      voting.addCandidate("")
+    ).to.be.revertedWith("Ten ung vien khong duoc rong");
   });
 });
