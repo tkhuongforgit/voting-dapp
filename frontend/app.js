@@ -80,7 +80,7 @@ async function connectWallet() {
 // ---------- Lắng nghe event để auto refresh ----------
 function attachContractListeners() {
   if (!contract) return;
-  contract.on("Voted", () => refreshCandidates());
+contract.on("Voted", () => refreshCandidates());
   contract.on("CandidateAdded", () => refreshCandidates());
   contract.on("VotingStarted", () => refreshStatus());
   contract.on("VotingEnded", () => refreshStatus());
@@ -114,14 +114,17 @@ async function refreshCandidates() {
 
   const alreadyVoted = await contract.hasVoted(currentAccount);
   const isOpen = await contract.votingOpen();
+  const totalVotes = candidates.reduce((sum, c) => sum + Number(c.voteCount), 0);
 
   for (const c of candidates) {
+    const percent = totalVotes > 0 ? (Number(c.voteCount) / totalVotes * 100) : 0;
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
       <div class="name">${escapeHtml(c.name)}</div>
       <div class="votes">Số phiếu</div>
       <div class="count">${c.voteCount.toString()}</div>
+      <div class="progress-bar"><div class="fill" style="width: ${percent.toFixed(1)}%"></div></div>
       <button class="btn primary vote-btn" data-id="${c.id}">
         ${alreadyVoted ? "Bạn đã bầu" : "Bỏ phiếu"}
       </button>
@@ -167,7 +170,7 @@ async function addCandidate() {
     await tx.wait();
     input.value = "";
     toast("Đã thêm ứng viên!", "success");
-    refreshCandidates();
+refreshCandidates();
   } catch (err) {
     handleTxError(err);
   }
