@@ -125,9 +125,9 @@ Sau khi deploy xong, chuyển MetaMask sang mạng Sepolia và mở frontend đ�
 
 ## 📍 Địa chỉ contract đã deploy
 
-> **Sepolia:** `_____________________________________` (điền sau khi deploy)
+> **Sepolia:** `0xef270c61e5ADE805BEC1B2c9fEB5Cd8bb814336B`
 >
-> Xem trên Etherscan: https://sepolia.etherscan.io/address/<CONTRACT_ADDRESS>
+> Xem trên Etherscan: https://sepolia.etherscan.io/address/0xef270c61e5ADE805BEC1B2c9fEB5Cd8bb814336B
 
 ## 📸 Ảnh demo
 
@@ -174,6 +174,12 @@ voting-dapp/
 - Thêm biểu đồ trực quan (Chart.js).
 - Tích hợp zk-SNARK để bỏ phiếu ẩn danh.
 
-## 👤 Tác giả
+## 👥 Thành viên nhóm
 
-Sinh viên – Môn Blockchain căn bản.
+| STT | Họ tên | MSSV | GitHub | Vai trò |
+|-----|--------|------|--------|---------|
+| 1 | Nguyen Duy Thanh Khuong | 2311020 | [@tkhuongforgit](https://github.com/tkhuongforgit) | Smart contract, deploy, backend |
+| 2 | *(Họ tên bạn B)* | *(MSSV)* | [@github-ban-B](https://github.com/github-ban-B) | Frontend UI/UX |
+| 3 | *(Họ tên bạn C)* | *(MSSV)* | [@github-ban-C](https://github.com/github-ban-C) | Tài liệu, test, demo |
+
+Đồ án môn **Blockchain căn bản** - Trường Đại học Công nghệ Thông tin & Truyền thông.
