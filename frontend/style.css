@@ -173,3 +173,36 @@ body {
   .wallet { display: flex; justify-content: center; }
   .status-card { flex-direction: column; gap: 8px; }
 }
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.15s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+  border-color: var(--primary);
+}
+
+/* Hiệu ứng cho nút bỏ phiếu */
+.vote-btn {
+  transition: all 0.2s ease;
+}
+.vote-btn:not(:disabled):hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Thanh progress bar hiển thị tỷ lệ phiếu */
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--surface-2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.progress-bar .fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
