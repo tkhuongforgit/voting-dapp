@@ -1,43 +1,151 @@
-echo     ^<p class="about-sub"^>Do an mon Blockchain can ban — Truong Dai hoc Ky thuat Cong nghe Can Tho (CTUT^)^</p^>
-echo     ^<div class="team-grid"^>
-echo       ^<div class="member-card"^>
-echo         ^<div class="member-avatar" style="background: #6366f1"^>K^</div^>
-echo         ^<div class="member-name"^>Nguyen Dau Tue Khuong^</div^>
-echo         ^<div class="member-id"^>MSSV: HTTT2311020^</div^>
-echo         ^<span class="member-role"^>Team Lead / Smart Contract^</span^>
-echo       ^</div^>
-echo       ^<div class="member-card"^>
-echo         ^<div class="member-avatar" style="background: #10b981"^>T^</div^>
-echo         ^<div class="member-name"^>Le Ho Quang Thong^</div^>
-echo         ^<div class="member-id"^>MSSV: HTTT2311008^</div^>
-echo         ^<span class="member-role"^>Testing / Documentation^</span^>
-echo       ^</div^>
-echo       ^<div class="member-card"^>
-echo         ^<div class="member-avatar" style="background: #f59e0b"^>K^</div^>
-echo         ^<div class="member-name"^>Kha Minh Khang^</div^>
-echo         ^<div class="member-id"^>MSSV: HTTT2311063^</div^>
-echo         ^<span class="member-role"^>Frontend / UI Design^</span^>
-echo       ^</div^>
-echo     ^</div^>
-echo     ^<div class="tech-section"^>
-echo       ^<h3^>🔧 Cong nghe su dung^</h3^>
-echo       ^<div class="tech-list"^>
-echo         ^<div class="tech-item"^>^<span class="tech-icon"^>📝^</span^>^<div^>^<div class="tech-name"^>Solidity^</div^>^<div class="tech-desc"^>Ngon ngu viet Smart Contract^</div^>^</div^>^</div^>
-echo         ^<div class="tech-item"^>^<span class="tech-icon"^>⚒️^</span^>^<div^>^<div class="tech-name"^>Hardhat^</div^>^<div class="tech-desc"^>Framework phat trien va test^</div^>^</div^>^</div^>
-echo         ^<div class="tech-item"^>^<span class="tech-icon"^>🔗^</span^>^<div^>^<div class="tech-name"^>ethers.js^</div^>^<div class="tech-desc"^>Thu vien tuong tac blockchain^</div^>^</div^>^</div^>
-echo         ^<div class="tech-item"^>^<span class="tech-icon"^>🦊^</span^>^<div^>^<div class="tech-name"^>MetaMask^</div^>^<div class="tech-desc"^>Vi Ethereum tren trinh duyet^</div^>^</div^>^</div^>
-echo         ^<div class="tech-item"^>^<span class="tech-icon"^>🌐^</span^>^<div^>^<div class="tech-name"^>Sepolia Testnet^</div^>^<div class="tech-desc"^>Mang thu nghiem Ethereum^</div^>^</div^>^</div^>
-echo         ^<div class="tech-item"^>^<span class="tech-icon"^>📦^</span^>^<div^>^<div class="tech-name"^>GitHub^</div^>^<div class="tech-desc"^>Quan ly ma nguon va cong tac^</div^>^</div^>^</div^>
-echo       ^</div^>
-echo     ^</div^>
-echo     ^<div class="back-link"^>
-echo       ^<a href="index.html"^>← Quay lai trang bo phieu^</a^>
-echo     ^</div^>
-echo   ^</main^>
-echo   ^<footer class="footer"^>
-echo     ^<div class="footer-inner"^>
-echo       ^<p class="footer-copy"^>© 2025 Nhom BlockVote — CTUT^</p^>
-echo     ^</div^>
-echo   ^</footer^>
-echo ^</body^>
-echo ^</html^>) > frontend\about.html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
+  <title>BlockVote - Giới thiệu nhóm</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    .about-title { text-align: center; font-size: 28px; margin-bottom: 8px; }
+    .about-sub { text-align: center; color: var(--muted); font-size: 15px; margin-bottom: 40px; line-height: 1.6; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
+    .member-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; transition: transform 0.3s, border-color 0.2s; }
+    .member-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+    .member-avatar { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700; color: #fff; margin: 0 auto 14px; }
+    .member-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .member-id { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+    .member-role { font-size: 13px; color: var(--primary-hover); background: rgba(99,102,241,0.1); padding: 4px 12px; border-radius: 20px; display: inline-block; }
+    .tech-section { margin-top: 32px; }
+    .tech-section h3 { text-align: center; font-size: 18px; margin-bottom: 20px; }
+    .tech-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .tech-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; transition: border-color 0.2s; }
+    .tech-item:hover { border-color: var(--primary); }
+    .tech-icon { font-size: 24px; }
+    .tech-name { font-weight: 600; font-size: 14px; }
+    .tech-desc { font-size: 12px; color: var(--muted); }
+    .back-link { display: block; text-align: center; margin-top: 32px; }
+    .back-link a { color: var(--primary-hover); text-decoration: none; font-size: 15px; padding: 10px 24px; border: 1px solid var(--primary); border-radius: 10px; display: inline-block; transition: background 0.2s; }
+    .back-link a:hover { background: rgba(99,102,241,0.1); }
+    .project-info { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 32px; }
+    .project-info h3 { font-size: 18px; margin-bottom: 12px; }
+    .project-info p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 8px; }
+    .project-info ul { color: var(--muted); font-size: 14px; line-height: 1.8; padding-left: 20px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">🗳️</span>
+      <h1>BlockVote</h1>
+      <span class="brand-tag">Decentralized</span>
+    </div>
+    <div class="wallet">
+      <a href="index.html" class="btn primary" style="text-decoration:none">← Trang chính</a>
+    </div>
+  </header>
+
+  <main class="about-container">
+    <h2 class="about-title">👨‍💻 Thành viên nhóm</h2>
+    <p class="about-sub">Đồ án môn Blockchain căn bản<br>Trường Đại học Kỹ thuật Công nghệ Cần Thơ (CTUT)</p>
+
+    <div class="team-grid">
+      <div class="member-card">
+        <div class="member-avatar" style="background: #6366f1">K</div>
+        <div class="member-name">Nguyễn Duy Thanh Khương</div>
+        <div class="member-id">MSSV: 2311020</div>
+        <span class="member-role">Team Lead / Smart Contract</span>
+      </div>
+      <div class="member-card">
+        <div class="member-avatar" style="background: #10b981">T</div>
+        <div class="member-name">Lê Hồ Quang Thông</div>
+        <div class="member-id">MSSV: 2311008</div>
+        <span class="member-role">Testing / Documentation</span>
+      </div>
+      <div class="member-card">
+        <div class="member-avatar" style="background: #f59e0b">K</div>
+        <div class="member-name">Kha Minh Khang</div>
+        <div class="member-id">MSSV: 2311063</div>
+        <span class="member-role">Frontend / UI Design</span>
+      </div>
+    </div>
+
+    <div class="project-info">
+      <h3>📋 Giới thiệu đồ án</h3>
+      <p><strong>BlockVote</strong> là ứng dụng bỏ phiếu phi tập trung (DApp) được xây dựng trên nền tảng Ethereum Blockchain. Ứng dụng đảm bảo tính minh bạch, bảo mật và không thể gian lận trong quá trình bỏ phiếu.</p>
+      <p><strong>Các tính năng chính:</strong></p>
+      <ul>
+        <li>Kết nối ví MetaMask để xác minh danh tính</li>
+        <li>Thêm ứng viên (chỉ Owner)</li>
+        <li>Mở/đóng phiên bỏ phiếu</li>
+        <li>Bỏ phiếu với xác nhận trước khi gửi</li>
+        <li>Mỗi địa chỉ ví chỉ được bầu 1 lần</li>
+        <li>Xem kết quả real-time với biểu đồ</li>
+        <li>Hiệu ứng confetti khi bỏ phiếu thành công</li>
+        <li>Xem giao dịch trên Etherscan</li>
+      </ul>
+    </div>
+
+    <div class="tech-section">
+      <h3>🔧 Công nghệ sử dụng</h3>
+      <div class="tech-list">
+        <div class="tech-item">
+          <span class="tech-icon">📝</span>
+          <div>
+            <div class="tech-name">Solidity</div>
+            <div class="tech-desc">Ngôn ngữ viết Smart Contract trên Ethereum</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">⚒️</span>
+          <div>
+            <div class="tech-name">Hardhat</div>
+            <div class="tech-desc">Framework phát triển, test và deploy contract</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">🔗</span>
+          <div>
+            <div class="tech-name">ethers.js v6</div>
+            <div class="tech-desc">Thư viện tương tác với blockchain từ frontend</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">🦊</span>
+          <div>
+            <div class="tech-name">MetaMask</div>
+            <div class="tech-desc">Ví Ethereum trên trình duyệt</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">🌐</span>
+          <div>
+            <div class="tech-name">Sepolia Testnet</div>
+            <div class="tech-desc">Mạng thử nghiệm Ethereum</div>
+          </div>
+        </div>
+        <div class="tech-item">
+          <span class="tech-icon">📦</span>
+          <div>
+            <div class="tech-name">GitHub</div>
+            <div class="tech-desc">Quản lý mã nguồn và cộng tác nhóm</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="index.html">← Quay lại trang bỏ phiếu</a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">🗳️ BlockVote</div>
+      <p>Đồ án môn Blockchain căn bản — CTUT</p>
+      <p class="footer-copy">© 2025 Nhóm BlockVote — Khương · Thông · Khang</p>
+    </div>
+  </footer>
+</body>
+</html>
