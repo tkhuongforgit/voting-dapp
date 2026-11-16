@@ -1,95 +1,86 @@
-# 🗳️ BlockVote – DApp Bỏ phiếu Phi tập trung
+# BlockVote - DApp Bo phieu Phi tap trung
 
-Đề tài môn **Blockchain căn bản**: xây dựng ứng dụng bỏ phiếu phi tập trung (Decentralized Voting Application) trên blockchain Ethereum, bảo đảm **minh bạch**, **bất biến** và **chống gian lận**.
+Do an mon **Blockchain can ban** - Truong Dai hoc Ky thuat Cong nghe Can Tho (CTUT).
 
-## 📌 Mô tả ngắn
+Ung dung bo phieu phi tap trung tren blockchain Ethereum. Nguoi dung ket noi vi MetaMask, xem danh sach ung vien va bo phieu. Moi vi chi duoc bo phieu 1 lan. Ket qua luu tren blockchain, minh bach va bat bien.
 
-Người dùng kết nối ví **MetaMask**, xem danh sách ứng viên và bỏ phiếu cho ứng viên mình chọn. Mỗi địa chỉ ví **chỉ được bỏ phiếu 1 lần**. Kết quả được lưu trực tiếp trên blockchain – ai cũng có thể xác minh, không ai sửa được.
+## Cong nghe
 
-Chức năng chính:
-- Kết nối ví MetaMask
-- Xem danh sách ứng viên và số phiếu theo thời gian thực
-- Bỏ phiếu (1 ví = 1 phiếu)
-- Owner: thêm ứng viên, mở/đóng phiên bỏ phiếu
-- Lắng nghe event để cập nhật UI tự động
-
-## 🧰 Công nghệ sử dụng
-
-| Thành phần | Công nghệ |
+| Thanh phan | Cong nghe |
 |---|---|
-| Smart contract | Solidity `^0.8.20` |
+| Smart contract | Solidity ^0.8.20 |
 | Framework | Hardhat |
-| Mạng test | Sepolia testnet + Hardhat local |
-| Frontend | HTML + CSS + JS thuần |
-| Thư viện Web3 | ethers.js v6 (CDN) |
-| Ví | MetaMask |
+| Mang test | Sepolia testnet |
+| Frontend | HTML + CSS + JS |
+| Thu vien Web3 | ethers.js v6 (CDN) |
+| Vi | MetaMask |
 
-## 🔄 Luồng hoạt động
+## Cai dat va chay
 
-```
-┌──────────┐    1. Kết nối     ┌──────────┐    2. Ký giao dịch     ┌───────────────┐
-│ Người    │ ───────────────▶ │ MetaMask │ ────────────────────▶ │ Smart Contract │
-│ dùng     │ ◀─────────────── │          │ ◀──────────────────── │  (Voting.sol)  │
-└──────────┘    6. Cập nhật    └──────────┘   5. Trả kết quả      └───────┬───────┘
-                                                                          │
-                                                                          ▼
-                                                               ┌──────────────────┐
-                                                               │ Ethereum Sepolia │
-                                                               │   Blockchain     │
-                                                               └──────────────────┘
+```bash
+git clone https://github.com/tkhuongforgit/voting-dapp.git
+cd voting-dapp
+npm install
+npx hardhat compile
+npx hardhat test
 ```
 
-1. Người dùng mở website → bấm **Kết nối ví**
-2. MetaMask yêu cầu cấp quyền → trả về địa chỉ ví
-3. Frontend gọi `vote()` qua ethers.js → MetaMask hiển thị popup ký
-4. Người dùng ký → giao dịch gửi lên mạng Sepolia
-5. Contract kiểm tra điều kiện (chưa bầu, phiên đang mở, id hợp lệ) → cộng 1 phiếu → emit event `Voted`
-6. Frontend lắng nghe event, cập nhật số phiếu trên UI
+### Chay local
 
-## 📂 Cấu trúc thư mục
+```bash
+npx hardhat node                                          # Terminal 1
+npx hardhat run scripts/deploy.js --network localhost     # Terminal 2
+npx http-server frontend -p 5500 -c-1                    # Terminal 3
+```
+
+Mo trinh duyet: http://localhost:5500
+
+### Deploy len Sepolia
+
+```bash
+cp .env.example .env    # Dien SEPOLIA_RPC_URL va PRIVATE_KEY
+npx hardhat run scripts/deploy.js --network sepolia
+```
+
+> **PRIVATE_KEY** la chia khoa dieu khien tai san vi. **KHONG BAO GIO** commit file `.env` len GitHub.
+
+## Contract da deploy
+
+> **Sepolia:** `0xef270c61e5ADE805BEC1B2c9fEB5Cd8bb814336B`
+>
+> Etherscan: https://sepolia.etherscan.io/address/0xef270c61e5ADE805BEC1B2c9fEB5Cd8bb814336B
+
+## Anh demo
+
+| Trang chinh | Khu vuc Owner | Etherscan |
+|---|---|---|
+| ![main](docs/screenshot-main.png) | ![admin](docs/screenshot-admin.png) | ![etherscan](docs/screenshot-etherscan.png) |
+
+## Cau truc thu muc
 
 ```
 voting-dapp/
-├── contracts/
-│   └── Voting.sol           # Smart contract chính
-├── scripts/
-│   └── deploy.js            # Script deploy + xuất ABI
-├── test/
-│   └── Voting.test.js       # Unit test
+├── contracts/Voting.sol        # Smart contract
+├── scripts/deploy.js           # Script deploy + xuat ABI
+├── test/Voting.test.js         # Unit test
 ├── frontend/
-│   ├── index.html           # Giao diện
-│   ├── style.css            # CSS
-│   ├── app.js               # Logic frontend + ethers.js
-│   └── contract.js          # Địa chỉ + ABI (tự sinh)
+│   ├── index.html              # Giao dien
+│   ├── style.css               # CSS
+│   ├── loading.css             # Hieu ung loading
+│   ├── app.js                  # Logic frontend
+│   └── contract.js             # Dia chi + ABI (tu sinh)
 ├── hardhat.config.js
 ├── package.json
 ├── .env.example
-├── .gitignore
 └── README.md
 ```
 
-## 🚧 Hạn chế & hướng phát triển
+## Thanh vien nhom
 
-**Hạn chế hiện tại:**
-- Chưa có cơ chế phân quyền cử tri (whitelist): bất kỳ ví nào cũng có thể bỏ phiếu.
-- Chưa giới hạn thời gian phiên bỏ phiếu bằng block timestamp.
-- Chưa hỗ trợ nhiều cuộc bầu cử song song (1 contract = 1 cuộc bầu).
-- UI cơ bản, chưa có thống kê biểu đồ.
-
-**Hướng phát triển:**
-- Thêm whitelist cử tri (ví dụ merkle proof cho danh sách lớn).
-- Thêm `startTime` và `endTime` cho phiên bỏ phiếu.
-- Tách thành **Factory pattern**: 1 contract Factory tạo ra nhiều Election instance.
-- Dùng IPFS lưu metadata ứng viên (ảnh đại diện, mô tả).
-- Thêm biểu đồ trực quan (Chart.js).
-- Tích hợp zk-SNARK để bỏ phiếu ẩn danh.
-
-## 👥 Thành viên nhóm
-
-| STT | Họ tên | MSSV | GitHub | Vai trò |
+| STT | Ho ten | MSSV | GitHub | Vai tro |
 |-----|--------|------|--------|---------|
 | 1 | Nguyen Dau Tue Khuong | 2311020 | [@tkhuongforgit](https://github.com/tkhuongforgit) | Smart contract, deploy, backend |
 | 2 | Le Ho Quang Thong | 2311008 | [@Thonghttt2311008](https://github.com/Thonghttt2311008) | Frontend UI/UX |
-| 3 | Kha Minh Khang | 2311063 | [@kmkhang](https://github.com/kmkhang) | Tài liệu, test, demo |
+| 3 | Kha Minh Khang | 2311063 | [@kmkhang](https://github.com/kmkhang) | Tai lieu, test, demo |
 
-Đồ án môn Blockchain căn bản - CTUT
+Do an mon **Blockchain can ban** - CTUT.

@@ -4,66 +4,184 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗳️</text></svg>">
-<meta name="description" content="BlockVote - Ứng dụng bỏ phiếu phi tập trung trên Ethereum Blockchain" />
+  <meta name="description" content="BlockVote - Ứng dụng bỏ phiếu phi tập trung trên Ethereum Blockchain" />
   <title>BlockVote – DApp Bỏ phiếu phi tập trung</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <!-- Confetti canvas -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Loading overlay -->
+  <div id="loadingOverlay" class="loading-overlay hidden">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <p id="loadingText">Đang xử lý giao dịch...</p>
+      <p class="loading-hint">Vui lòng xác nhận trên MetaMask</p>
+    </div>
+  </div>
+
+  <!-- Confirm modal -->
+  <div id="confirmModal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-icon">🗳️</div>
+      <h3>Xác nhận bỏ phiếu</h3>
+      <p>Bạn muốn bỏ phiếu cho <strong id="confirmName">—</strong>?</p>
+      <p class="modal-warn">⚠️ Mỗi ví chỉ được bầu 1 lần và không thể thay đổi.</p>
+      <div class="modal-actions">
+        <button id="confirmYes" class="btn primary">✓ Xác nhận bỏ phiếu</button>
+        <button id="confirmNo" class="btn">✕ Hủy</button>
+      </div>
+    </div>
+  </div>
+
   <header class="topbar">
     <div class="brand">
       <span class="logo">🗳️</span>
       <h1>BlockVote</h1>
+      <span class="brand-tag">Decentralized</span>
     </div>
     <div class="wallet">
-      <button id="connectBtn" class="btn primary">Kết nối ví</button>
+      <button id="connectBtn" class="btn primary connect-btn">
+        <span class="wallet-icon">🦊</span> Kết nối ví
+      </button>
       <span id="account" class="account hidden"></span>
+      <span id="ownerBadge" class="owner-badge hidden">Owner</span>
     </div>
   </header>
 
+  <!-- Hero section -->
+  <section id="heroSection" class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <h2>Bỏ phiếu minh bạch<br>trên Blockchain</h2>
+      <p>Mỗi phiếu bầu được ghi nhận vĩnh viễn trên Ethereum.<br>Không gian lận, không sửa đổi, ai cũng xác minh được.</p>
+      <div class="hero-features">
+        <div class="feature"><span class="feature-icon">🔒</span><span>Bảo mật</span></div>
+        <div class="feature"><span class="feature-icon">👁️</span><span>Minh bạch</span></div>
+        <div class="feature"><span class="feature-icon">🌐</span><span>Phi tập trung</span></div>
+        <div class="feature"><span class="feature-icon">✅</span><span>1 ví = 1 phiếu</span></div>
+      </div>
+      <button class="btn primary hero-cta" onclick="document.getElementById('connectBtn').click()">
+        <span class="wallet-icon">🦊</span> Kết nối MetaMask để bắt đầu
+      </button>
+    </div>
+  </section>
+
   <main class="container">
-    <section class="status-card">
-      <div>
-        <strong>Trạng thái phiên:</strong>
+    <!-- Stats bar -->
+    <section id="statsBar" class="stats-bar hidden">
+      <div class="stat-item">
+        <span class="stat-icon">👥</span>
+        <span class="stat-value" id="statCandidates">0</span>
+        <span class="stat-label">Ứng viên</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">🗳️</span>
+        <span class="stat-value" id="statTotalVotes">0</span>
+        <span class="stat-label">Tổng phiếu</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-icon">📡</span>
         <span id="votingStatus" class="badge badge-closed">Chưa biết</span>
+        <span class="stat-label">Trạng thái</span>
       </div>
-      <div>
-        <strong>Mạng:</strong> <span id="networkName">—</span>
+      <div class="stat-item clickable" id="contractLink" title="Click để copy địa chỉ">
+        <span class="stat-icon">📄</span>
+        <span class="stat-value mono" id="contractAddr">—</span>
+        <span class="stat-label">Contract · Click để copy</span>
       </div>
-      <div>
-        <strong>Contract:</strong> <span id="contractAddr" class="mono">—</span>
+      <div class="stat-item">
+        <span class="stat-icon">🌐</span>
+        <span class="stat-value mono" id="networkName">—</span>
+        <span class="stat-label">Mạng</span>
       </div>
     </section>
 
+    <!-- Etherscan link -->
+    <div id="etherscanLink" class="etherscan-link hidden">
+      <a id="etherscanUrl" href="#" target="_blank" rel="noopener">
+        🔍 Xem contract trên Etherscan ↗
+      </a>
+    </div>
+
+    <!-- Winner banner -->
+    <section id="winnerBanner" class="winner-banner hidden">
+      <div class="winner-trophy">🏆</div>
+      <div class="winner-info">
+        <span class="winner-label">Người dẫn đầu</span>
+        <span class="winner-name" id="winnerName">—</span>
+        <span class="winner-votes" id="winnerVotes">— phiếu</span>
+      </div>
+      <div class="winner-bar">
+        <div class="winner-fill" id="winnerFill" style="width: 0%"></div>
+      </div>
+    </section>
+
+    <!-- Admin panel -->
     <section id="adminPanel" class="admin hidden">
-      <h2>⚙️ Khu vực Owner</h2>
-      <div class="admin-row">
-        <input id="newCandidateName" type="text" placeholder="Tên ứng viên mới" />
-        <button id="addCandidateBtn" class="btn">Thêm ứng viên</button>
+      <div class="admin-header">
+        <h2>⚙️ Khu vực Owner</h2>
+        <span class="admin-hint">Chỉ Owner (người deploy contract) mới thấy khu vực này</span>
       </div>
-      <div class="admin-row">
-        <button id="startBtn" class="btn success">Mở bỏ phiếu</button>
-        <button id="endBtn" class="btn danger">Đóng bỏ phiếu</button>
+      <div class="admin-body">
+        <div class="admin-row">
+          <input id="newCandidateName" type="text" placeholder="Nhập tên ứng viên mới..." maxlength="50" />
+          <button id="addCandidateBtn" class="btn admin-btn add-btn">
+            <span>＋</span> Thêm ứng viên
+          </button>
+        </div>
+        <div class="admin-row">
+          <button id="startBtn" class="btn success admin-btn">▶ Mở bỏ phiếu</button>
+          <button id="endBtn" class="btn danger admin-btn">⏹ Đóng bỏ phiếu</button>
+        </div>
       </div>
-      <p class="hint">* Chỉ địa chỉ Owner (người đã deploy contract) mới thấy khu vực này.</p>
     </section>
 
+    <!-- Candidates -->
     <section class="candidates">
-      <h2>Danh sách ứng viên</h2>
+      <div class="candidates-header">
+        <h2>📋 Danh sách ứng viên</h2>
+        <span id="candidateCount" class="candidate-count hidden">0 ứng viên</span>
+      </div>
       <div id="candidatesList" class="grid">
-        <p class="empty">Chưa kết nối ví hoặc chưa có ứng viên nào.</p>
+        <div class="empty-state">
+          <span class="empty-icon">📭</span>
+          <p>Chưa kết nối ví hoặc chưa có ứng viên nào.</p>
+          <p class="empty-hint">Bấm "Kết nối ví" ở góc trên phải để bắt đầu</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="howItWorks" class="how-section">
+      <h2>🔗 Cách hoạt động</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><h3>Kết nối ví</h3><p>Kết nối MetaMask để xác minh danh tính qua địa chỉ ví Ethereum</p></div>
+        <div class="step"><div class="step-num">2</div><h3>Chọn ứng viên</h3><p>Xem danh sách và chọn ứng viên bạn muốn bỏ phiếu</p></div>
+        <div class="step"><div class="step-num">3</div><h3>Ký giao dịch</h3><p>MetaMask yêu cầu ký — phiếu bầu được ghi lên blockchain vĩnh viễn</p></div>
+        <div class="step"><div class="step-num">4</div><h3>Xác minh</h3><p>Kiểm tra kết quả trên Etherscan — ai cũng có thể xác minh</p></div>
       </div>
     </section>
 
     <section id="toast" class="toast hidden"></section>
   </main>
 
+  <!-- Scroll to top -->
+  <button id="scrollTopBtn" class="scroll-top hidden" title="Lên đầu trang">↑</button>
+
   <footer class="footer">
-    <small>Đề tài học tập – Blockchain căn bản · Ethereum · Solidity · ethers.js</small>
+    <div class="footer-inner">
+      <div class="footer-brand">🗳️ BlockVote</div>
+      <p>Đồ án môn Blockchain căn bản — Trường Đại học Kỹ thuật Công nghệ Cần Thơ (CTUT)</p>
+      <div class="footer-tech">
+        <span>Solidity</span><span>Hardhat</span><span>ethers.js</span><span>MetaMask</span><span>Sepolia</span>
+      </div>
+      <p class="footer-copy">© 2025 Nhóm BlockVote — Khương · Thông · Khang</p>
+    </div>
   </footer>
 
-  <!-- ethers.js v6 qua CDN -->
   <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
-  <!-- File do script deploy sinh ra: chứa CONTRACT_ADDRESS, CONTRACT_ABI, NETWORK_NAME -->
   <script src="contract.js"></script>
   <script src="app.js"></script>
 </body>

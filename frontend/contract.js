@@ -1,5 +1,5 @@
 // Tự động sinh bởi scripts/deploy.js – KHÔNG chỉnh thủ công
-window.CONTRACT_ADDRESS = "0xef270c61e5ADE805BEC1B2c9fEB5Cd8bb814336B";
+window.CONTRACT_ADDRESS = "0xefe5d17baA647483200A5F3437CDc220DE91d1F1";
 window.CONTRACT_ABI = [
   {
     "inputs": [],
